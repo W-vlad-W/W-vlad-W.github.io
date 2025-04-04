@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ar-for-woocommerce/gallery-block",
+  "version": "0.1.0",
+  "title": "AR Gallery Block",
+  "category": "widgets",
+  "icon": "smartphone",
+  "description": "AR For Woocommerce Gallery Block",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "gallery-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

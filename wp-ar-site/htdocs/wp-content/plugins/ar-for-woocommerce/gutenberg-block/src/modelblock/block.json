@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ar-for-woocommerce/gutenberg-block",
+	"version": "0.1.0",
+	"title": "AR for WooCommerce",
+	"category": "ar_display",
+	"icon": "smartphone",
+	"description": "AR For Woocommerce Gutenberg Block.",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+    "id": {
+      "type": "number",
+      "default": "0"
+    }
+  },
+	"textdomain": "gutenberg-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}
