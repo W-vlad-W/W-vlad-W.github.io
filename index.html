@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>AR 3D Models</title>
   
+  <!-- Підключення стилів для сторінки -->
   <style>
     body {
       margin: 0;
@@ -27,11 +28,27 @@
       width: 100%;
       height: 100vh;
       position: absolute;
+      display: none; /* Сховати сцену AR до натискання кнопки */
     }
-    
+
     .container {
       padding: 20px;
       text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #555;
     }
   </style>
 
@@ -41,18 +58,23 @@
   <script type="module" src="https://unpkg.com/@google/model-viewer@latest"></script>
 </head>
 <body>
+  <!-- Хедер з заголовком -->
   <header>
     <h1>Explore 3D Models in Augmented Reality</h1>
   </header>
 
+  <!-- Контейнер для кнопки запуску AR -->
   <div class="container">
-    <p>Скануйте маркери для перегляду моделей у доповненій реальності!</p>
+    <p>Натисніть кнопку, щоб запустити камеру для перегляду моделей у доповненій реальності!</p>
+    <button id="startARButton">Запустити AR</button>
   </div>
 
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" style="height: 100vh;">
+  <!-- AR-сцена (зазначена як прихована) -->
+  <a-scene id="arScene" embedded arjs="sourceType: webcam; debugUIEnabled: false;" style="height: 100vh; display: none;">
+    <!-- Маркер для моделі AK-47 -->
     <a-marker preset="hiro">
       <model-viewer
-        src="ak47.glb"
+        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/ak47.glb"
         ar
         ar-modes="webxr scene-viewer quick-look"
         camera-controls
@@ -61,9 +83,10 @@
       </model-viewer>
     </a-marker>
 
+    <!-- Маркер для моделі Dynamite -->
     <a-marker preset="kanji">
       <model-viewer
-        src="dynamite.glb"
+        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/dynamite.glb"
         ar
         ar-modes="webxr scene-viewer quick-look"
         camera-controls
@@ -72,9 +95,10 @@
       </model-viewer>
     </a-marker>
 
+    <!-- Маркер для моделі Atomic Bomb -->
     <a-marker preset="barcode">
       <model-viewer
-        src="atomic_bomb.glb"
+        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/atomic_bomb.glb"
         ar
         ar-modes="webxr scene-viewer quick-look"
         camera-controls
@@ -82,7 +106,32 @@
         shadow-intensity="1">
       </model-viewer>
     </a-marker>
+
+    <!-- Маркер для моделі Flush Toilet -->
+    <a-marker preset="pattern" url="https://subojvynalezcov.sk/path/to/your/custom-marker.patt">
+      <model-viewer
+        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/flush_toilet.glb"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1">
+      </model-viewer>
+    </a-marker>
+
+    <!-- Камера для AR -->
     <a-entity camera></a-entity>
   </a-scene>
+
+  <script>
+    // Функція для показу AR-сцени при натисканні на кнопку
+    document.getElementById("startARButton").addEventListener("click", function() {
+      // Приховуємо кнопку після натискання
+      this.style.display = "none";
+      
+      // Показуємо AR-сцену
+      document.getElementById("arScene").style.display = "block";
+    });
+  </script>
 </body>
 </html>
