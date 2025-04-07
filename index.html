@@ -12,7 +12,13 @@
       margin: 0;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
     }
+
     header {
       background-color: #333;
       color: white;
@@ -22,13 +28,6 @@
     header h1 {
       margin: 0;
       font-size: 24px;
-    }
-
-    a-scene {
-      width: 100%;
-      height: 100vh;
-      position: absolute;
-      display: none; /* Сховати сцену AR до натискання кнопки */
     }
 
     .container {
@@ -50,6 +49,21 @@
     button:hover {
       background-color: #555;
     }
+
+    #arSceneContainer {
+      display: none; /* Сцена AR спочатку прихована */
+      width: 80%;
+      height: 80vh;
+      position: relative;
+      margin-top: 20px;
+      border: 2px solid #333;
+      background-color: #ffffff;
+    }
+
+    a-scene {
+      width: 100%;
+      height: 100%;
+    }
   </style>
 
   <!-- Підключення бібліотек -->
@@ -69,68 +83,58 @@
     <button id="startARButton">Запустити AR</button>
   </div>
 
-  <!-- AR-сцена (зазначена як прихована) -->
-  <a-scene id="arScene" embedded arjs="sourceType: webcam; debugUIEnabled: false;" style="height: 100vh; display: none;">
-    <!-- Маркер для моделі AK-47 -->
-    <a-marker preset="hiro">
-      <model-viewer
-        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/ak47.glb"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1">
-      </model-viewer>
-    </a-marker>
+  <!-- Контейнер для AR-сцени (спочатку прихований) -->
+  <div id="arSceneContainer">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <!-- Маркер для моделі AK-47 -->
+      <a-marker preset="hiro">
+        <model-viewer
+          src="ak47.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          auto-rotate
+          shadow-intensity="1">
+        </model-viewer>
+      </a-marker>
 
-    <!-- Маркер для моделі Dynamite -->
-    <a-marker preset="kanji">
-      <model-viewer
-        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/dynamite.glb"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1">
-      </model-viewer>
-    </a-marker>
+      <!-- Маркер для моделі Dynamite -->
+      <a-marker preset="kanji">
+        <model-viewer
+          src="dynamite.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          auto-rotate
+          shadow-intensity="1">
+        </model-viewer>
+      </a-marker>
 
-    <!-- Маркер для моделі Atomic Bomb -->
-    <a-marker preset="barcode">
-      <model-viewer
-        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/atomic_bomb.glb"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1">
-      </model-viewer>
-    </a-marker>
+      <!-- Маркер для моделі Atomic Bomb -->
+      <a-marker preset="barcode">
+        <model-viewer
+          src="atomic_bomb.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          auto-rotate
+          shadow-intensity="1">
+        </model-viewer>
+      </a-marker>
 
-    <!-- Маркер для моделі Flush Toilet -->
-    <a-marker preset="pattern" url="https://subojvynalezcov.sk/path/to/your/custom-marker.patt">
-      <model-viewer
-        src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/flush_toilet.glb"
-        ar
-        ar-modes="webxr scene-viewer quick-look"
-        camera-controls
-        auto-rotate
-        shadow-intensity="1">
-      </model-viewer>
-    </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </div>
 
-    <!-- Камера для AR -->
-    <a-entity camera></a-entity>
-  </a-scene>
-
+  <!-- Скрипт для запуску AR -->
   <script>
-    // Функція для показу AR-сцени при натисканні на кнопку
+    // Додаємо обробник події для кнопки
     document.getElementById("startARButton").addEventListener("click", function() {
       // Приховуємо кнопку після натискання
       this.style.display = "none";
       
-      // Показуємо AR-сцену
-      document.getElementById("arScene").style.display = "block";
+      // Показуємо контейнер з AR-сценой
+      document.getElementById("arSceneContainer").style.display = "block";
     });
   </script>
 </body>
