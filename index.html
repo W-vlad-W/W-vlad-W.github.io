@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>AR 3D Models</title>
-  
-  <!-- Підключення стилів для сторінки -->
+  <title>Marker-based AR with Button</title>
+
+  <!-- Підключення бібліотек -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -15,168 +18,82 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       background-color: #f0f0f0;
     }
 
-    header {
-      background-color: #333;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-
-    .container {
-      padding: 20px;
-      text-align: center;
-    }
-
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #333;
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #007BFF;
       color: white;
       border: none;
       border-radius: 5px;
-      margin-top: 20px;
-    }
-
-    button:hover {
-      background-color: #555;
-    }
-
-    #arSceneContainer {
-      display: none; /* Сцена AR спочатку прихована */
-      width: 80%;
-      height: 80vh;
-      position: relative;
-      margin-top: 20px;
-      border: 2px solid #333;
-      background-color: #ffffff;
+      cursor: pointer;
     }
 
     a-scene {
-      width: 100%;
-      height: 100%;
+      display: none; /* Початково сцена прихована */
+      width: 80vw; /* Встановлюємо ширину */
+      height: 60vh; /* Встановлюємо висоту */
+      position: absolute;
+      top: 50%; /* Встановлюємо відступ від верхнього краю */
+      left: 50%; /* Встановлюємо відступ зліва */
+      transform: translate(-50%, -50%); /* Центруємо сцену */
+      border: 2px solid #000; /* Рамка навколо сцени */
+      border-radius: 10px;
     }
 
-    #modelViewerContainer {
-      display: none; /* Сховано на початку */
-      width: 100%;
-      max-width: 500px;
-      height: 400px;
-      margin-top: 20px;
+    .info {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
     }
   </style>
-
-  <!-- Підключення бібліотек -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-  <script type="module" src="https://unpkg.com/@google/model-viewer@latest"></script>
 </head>
 <body>
-  <!-- Хедер з заголовком -->
-  <header>
-    <h1>Explore 3D Models in Augmented Reality</h1>
-  </header>
 
-  <!-- Контейнер для кнопки запуску AR -->
-  <div class="container">
-    <p>Натисніть кнопку, щоб запустити камеру для перегляду моделей у доповненій реальності або побачити їх на екрані на комп'ютерах.</p>
-    <button id="startARButton">Запустити AR</button>
+  <!-- Кнопка для запуску AR -->
+  <button onclick="startAR()">Запустити AR</button>
+
+  <!-- Текстова інструкція для користувача -->
+  <div class="info">
+    Скануйте маркер, щоб побачити 3D-модель у доповненій реальності.
   </div>
 
-  <!-- Контейнер для AR-сцени (спочатку прихований) -->
-  <div id="arSceneContainer">
-    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-      <!-- Маркер для моделі AK-47 -->
-      <a-marker preset="hiro">
-        <model-viewer
-          src="ak47.glb"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          auto-rotate
-          shadow-intensity="1">
-        </model-viewer>
-      </a-marker>
+  <!-- A-Frame сцена для AR (спочатку прихована) -->
+  <a-scene id="ar-scene" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    
+    <!-- Маркер для 3D моделі -->
+    <a-marker preset="hiro">
+      <!-- Модель для відображення -->
+      <a-entity 
+        geometry="primitive: box; width: 1; height: 1; depth: 1;" 
+        material="color: red;">
+      </a-entity>
+    </a-marker>
 
-      <!-- Маркер для моделі Dynamite -->
-      <a-marker preset="kanji">
-        <model-viewer
-          src="dynamite.glb"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          auto-rotate
-          shadow-intensity="1">
-        </model-viewer>
-      </a-marker>
+    <!-- Камера для AR -->
+    <a-entity camera></a-entity>
 
-      <!-- Маркер для моделі Atomic Bomb -->
-      <a-marker preset="barcode">
-        <model-viewer
-          src="atomic_bomb.glb"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          auto-rotate
-          shadow-intensity="1">
-        </model-viewer>
-      </a-marker>
+  </a-scene>
 
-      <!-- Маркер для моделі Flush Toilet -->
-      <a-marker preset="pattern" url="https://subojvynalezcov.sk/path/to/your/custom-marker.patt">
-        <model-viewer
-          src="flush_toilet.glb"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          camera-controls
-          auto-rotate
-          shadow-intensity="1">
-        </model-viewer>
-      </a-marker>
-
-      <!-- Камера для AR -->
-      <a-entity camera></a-entity>
-    </a-scene>
-  </div>
-
-  <!-- Контейнер для моделі (для комп'ютерів та ноутбуків) -->
-  <div id="modelViewerContainer">
-    <model-viewer
-      src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/ak47.glb"
-      alt="AK-47 Model"
-      camera-controls
-      auto-rotate
-      shadow-intensity="1"
-      style="width: 100%; height: 100%;">
-    </model-viewer>
-  </div>
-
-  <!-- Скрипт для запуску AR -->
   <script>
-    // Перевіряємо, чи це мобільний пристрій або планшет
-    const isMobile = window.innerWidth <= 768;
+    // Функція для запуску AR при натисканні на кнопку
+    function startAR() {
+      // Прибираємо кнопку після натискання
+      document.querySelector('button').style.display = 'none';
 
-    // Додаємо обробник події для кнопки
-    document.getElementById("startARButton").addEventListener("click", function() {
-      // Приховуємо кнопку після натискання
-      this.style.display = "none";
-      
-      if (isMobile) {
-        // Для мобільних пристроїв показуємо AR сцену
-        document.getElementById("arSceneContainer").style.display = "block";
-      } else {
-        // Для комп'ютерів і ноутбуків показуємо модель через model-viewer
-        document.getElementById("modelViewerContainer").style.display = "block";
-      }
-    });
+      // Показуємо сцену з AR
+      document.querySelector('#ar-scene').style.display = 'block';
+    }
   </script>
+
 </body>
 </html>
