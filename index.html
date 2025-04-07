@@ -64,6 +64,14 @@
       width: 100%;
       height: 100%;
     }
+
+    #modelViewerContainer {
+      display: none; /* Сховано на початку */
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      margin-top: 20px;
+    }
   </style>
 
   <!-- Підключення бібліотек -->
@@ -79,7 +87,7 @@
 
   <!-- Контейнер для кнопки запуску AR -->
   <div class="container">
-    <p>Натисніть кнопку, щоб запустити камеру для перегляду моделей у доповненій реальності!</p>
+    <p>Натисніть кнопку, щоб запустити камеру для перегляду моделей у доповненій реальності або побачити їх на екрані на комп'ютерах.</p>
     <button id="startARButton">Запустити AR</button>
   </div>
 
@@ -122,19 +130,52 @@
         </model-viewer>
       </a-marker>
 
+      <!-- Маркер для моделі Flush Toilet -->
+      <a-marker preset="pattern" url="https://subojvynalezcov.sk/path/to/your/custom-marker.patt">
+        <model-viewer
+          src="flush_toilet.glb"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          camera-controls
+          auto-rotate
+          shadow-intensity="1">
+        </model-viewer>
+      </a-marker>
+
+      <!-- Камера для AR -->
       <a-entity camera></a-entity>
     </a-scene>
   </div>
 
+  <!-- Контейнер для моделі (для комп'ютерів та ноутбуків) -->
+  <div id="modelViewerContainer">
+    <model-viewer
+      src="https://subojvynalezcov.sk/wp-content/uploads/2025/04/ak47.glb"
+      alt="AK-47 Model"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      style="width: 100%; height: 100%;">
+    </model-viewer>
+  </div>
+
   <!-- Скрипт для запуску AR -->
   <script>
+    // Перевіряємо, чи це мобільний пристрій або планшет
+    const isMobile = window.innerWidth <= 768;
+
     // Додаємо обробник події для кнопки
     document.getElementById("startARButton").addEventListener("click", function() {
       // Приховуємо кнопку після натискання
       this.style.display = "none";
       
-      // Показуємо контейнер з AR-сценой
-      document.getElementById("arSceneContainer").style.display = "block";
+      if (isMobile) {
+        // Для мобільних пристроїв показуємо AR сцену
+        document.getElementById("arSceneContainer").style.display = "block";
+      } else {
+        // Для комп'ютерів і ноутбуків показуємо модель через model-viewer
+        document.getElementById("modelViewerContainer").style.display = "block";
+      }
     });
   </script>
 </body>
